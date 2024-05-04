@@ -26,7 +26,8 @@ template <typename... T> struct BinOp : public Node<T...> {
     swap(rhs.r_, r_);
   }
   int operator()(size_t k, const T &...params) const override {
-    return std::max((*l_)(k, params...) - (*r_)(k, params...), 0);
+    // return std::max((*l_)(k, params...) - (*r_)(k, params...), 0);
+    return std::min((*l_)(k, params...), (*r_)(k, params...));
   }
   ~BinOp() {
     delete l_;
