@@ -24,5 +24,3 @@ VAL     [x|y]
 "$"               { return Flex::Tokens::ENDCH;}
 .                 { return Flex::Tokens::UNKNOWN;}
 %%
-
-// nothing

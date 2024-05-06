@@ -2,15 +2,12 @@
 #include <iostream>
 
 #include "ast.hh"
+#include "n_term.hh"
 #include "psdnf.hh"
+#include "save_set.hh"
 #include "tokens.hh"
 #include <FlexLexer.h>
-#include <string>
-#include <vector>
-#include "n_term.hh"
-#include "save_set.hh"
 
-// here we can return non-zero if lexing is not done inspite of EOF detected
 int yyFlexLexer::yywrap() { return 0; }
 
 template <typename... Tp> void plot() {
@@ -23,15 +20,14 @@ template <typename... Tp> void plot() {
   auto tmp = static_cast<Flex::Tokens>(lexer->yylex());
   Flex::n_term::E(tree, lexer, tmp);
   delete lexer;
-  P_SDNF<Tp...>{}(*tree, k);
+  print_sdnf(*tree, k);
   std::cout << "\n";
   std::cin.clear();
   std::cin.ignore();
   std::cout << (char)std::cin.peek();
-  std::cout << ((Save_set<Tp...>{}(*tree, k)) ? "Set saved" : "Set not saved")
+  std::cout << ((save_set<Tp...>(*tree, k)) ? "Set saved" : "Set not saved")
             << "\n";
 }
-
 int main() try {
   std::cout << "M: ";
   size_t m;
